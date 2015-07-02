@@ -1,0 +1,2 @@
+-Add quantity of item 
+-Add color coding for who buys what 
