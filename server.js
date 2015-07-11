@@ -7,7 +7,7 @@ var io = require('socket.io')(http);
 var mg = require('mongoose');
 mg.connect('mongodb://admin:h32isawesome@ds041432.mongolab.com:41432/checklist');
 
-var Item = mg.model("item", {checked:Boolean,name:String,claimed:Boolean,claimedby:String});
+var Item = mg.model("item", {time:Number, checked:Boolean,name:String,claimed:Boolean,claimedby:String});
 
 app.use(express.static(__dirname + '/Client'));
 app.use(bodyParser.json());
@@ -23,7 +23,7 @@ function refreshClients() {
 }
 
 function addItem(jsonItem, res) {
-  var checklistItem = new Item ({checked: jsonItem.check, name:jsonItem.name, claimed:jsonItem.claim, claimedby:jsonItem.claimby});
+  var checklistItem = new Item ({time: jsonItem.time, checked: jsonItem.check, name:jsonItem.name, claimed:jsonItem.claim, claimedby:jsonItem.claimby});
   checklistItem.save(function(err, userObj){
     if(err) console.log(err);
     else {
@@ -92,11 +92,12 @@ app.post("/itemlist", function(req, res) {
 
 app.get("/itemlist", function(req, res) {
   console.log("\nGot GET request, returning docs");
-  Item.find(function(err, items) {
+  Item.find().sort({time:-1}).exec(function(err, items) {
     if(err) return console.error(err);
     console.log("Current database: " + items);
     res.json(items);
-  });  
+  }
+  );  
 });
 
 http.listen(3000);

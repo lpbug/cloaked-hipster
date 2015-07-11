@@ -70,6 +70,7 @@ myApp.controller('AppCtrl', function ($scope, $http) {
   $scope.addItem = function() {
     console.log($scope.item);
     if($scope.item.claim) {$scope.item.claimby=$scope.shopper.name};
+    $scope.item.time= (new Date()).getTime();
     $http.post('/itemlist',$scope.item).success(function (res) {
       //console.log(res);
       refresh();
