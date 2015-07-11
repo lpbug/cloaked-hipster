@@ -76,4 +76,6 @@ myApp.controller('AppCtrl', function ($scope, $http) {
       refresh();
     })
   };
+  
+  $scope.refresh = refresh;
 });
