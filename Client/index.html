@@ -22,9 +22,15 @@
   
   <div class="container" ng-controller="AppCtrl">
     <h1>Trader Joe's Checklist</h1>
+    <span id="shopper-who">Shopper: 
+      <select ng-init="shopper.name='Alex'" ng-model="shopper.name" Shopper>
+        <option value="Alex">Alex</option>
+        <option value="Rebecca">Rebecca</option>
+      </select></span>
     <table class="table">
       <thead>
         <tr>
+          <th>Claimed</th>
           <th>Checked</th>
           <th>Name of Item</th>
         </tr>
@@ -32,9 +38,12 @@
       <tbody>
         <tr>
           <td>
+            <input type="checkbox" ng-model="item.claim"> Claim it?
+          </td>
+          <td>
             <input type="checkbox" ng-model="item.check"> Got it?  
           </td>          
-          <td width=80%>
+          <td width=70%>
             <input class="form-control" ng-model="item.name">
           </td>
           <td>
@@ -42,10 +51,9 @@
           </td>
         </tr>
         <tr ng-repeat="thisitem in itemlist track by $index">
-          <!--td>{{item.check}}</td-->
+          <td class="claimedby-{{thisitem.claimedby}}"><input type="checkbox" ng-model="thisitem.claimed" ng-click="claimed(thisitem._id,thisitem.claimed,shopper.name)">&nbsp;{{thisitem.claimedby}}</td>
           <td><input type="checkbox" ng-model="thisitem.checked" ng-click="checked(thisitem._id,thisitem.checked)"> Got it!</td>
-          <!--td>{{thisitem.name}}</td-->
-          <td><div for="{{$index}}" class="checked-{{thisitem.checked}}">{{thisitem.name}}</div></td>
+          <td><div for="{{$index}}" class="checked-{{thisitem.checked}}"><div class="claimed-{{thisitem.claimed}}">{{thisitem.name}}</div></td>
           <td><button class="btn btn-danger" ng-click="remove(thisitem._id)">Remove</button></td>
         </tr>
       </tbody>

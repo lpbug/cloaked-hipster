@@ -15,8 +15,10 @@ myApp.controller('AppCtrl', function ($scope, $http) {
       //Reset values
       $scope.item.name = "";
       $scope.item.check = false;
+      $scope.item.claim = false;
+      $scope.item.claimby = "";
     })
-  }
+  };
   
   console.log("Checklist app controller started")
   //Load up the page
@@ -29,7 +31,23 @@ myApp.controller('AppCtrl', function ($scope, $http) {
   $scope.checkstatus = function (item) {
     //console.log(item.checked);
     return item.checked;
-  }
+  };
+  
+  $scope.claimed = function (id, status, name) {
+    if (status) {
+      console.log(id + "has been claimed by:" + name);
+      $http.post(/itemclaim/+id+"/"+status+"/"+name).success(function(res){
+        //may be unnecessary
+        refresh();  
+      });
+    } else {
+      console.log(id + "has been unclaimed by:" + name);
+      $http.post(/itemclaim/+id+"/"+status+"/"+name).success(function(res){
+        //may be unnecessary
+        refresh();  
+      });
+    }    
+  };
   
   $scope.checked = function(id,status) {
     console.log(id + "has been set to:" + status);
@@ -51,9 +69,10 @@ myApp.controller('AppCtrl', function ($scope, $http) {
   
   $scope.addItem = function() {
     console.log($scope.item);
+    if($scope.item.claim) {$scope.item.claimby=$scope.shopper.name};
     $http.post('/itemlist',$scope.item).success(function (res) {
       //console.log(res);
       refresh();
     })
-  }
+  };
 });
