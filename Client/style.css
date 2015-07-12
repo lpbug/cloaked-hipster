@@ -1,3 +1,19 @@
+.navbar {
+  width: 100%;
+  height:20%;
+  position:fixed;  
+  background-color: rgba(255, 255, 255, 0.62);
+}
+
+.refresh-btn {
+  position: absolute;
+  right:80%
+}
+
+.table {
+  margin-top:20%;
+}
+
 .checked-true {
   text-decoration: line-through;
   color: black;
