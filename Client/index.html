@@ -58,12 +58,15 @@
         </tr>
         <tr ng-repeat="thisitem in itemlist track by $index">
           <td class="claimedby-{{thisitem.claimedby}}">
-            <input type="checkbox" ng-model="thisitem.claimed" ng-click="claimed(thisitem._id,thisitem.claimed,shopper.name)">&nbsp;{{thisitem.claimedby}}</td>
+            <input type="checkbox" ng-model="thisitem.claimed" ng-click="claimed(thisitem._id,thisitem.claimed,shopper.name)">&nbsp;{{thisitem.claimedby}}
+          </td>
           <td>
-            <input type="checkbox" ng-model="thisitem.checked" ng-click="checked(thisitem._id,thisitem.checked)"> Got it!</td>
+            <input type="checkbox" ng-model="thisitem.checked" ng-click="checked(thisitem._id,thisitem.checked)"> Got it!
+          </td>
           <td>
             <div for="{{$index}}" class="checked-{{thisitem.checked}}">
               <div class="claimed-{{thisitem.claimed}}">{{thisitem.name}}</div>
+            </div>
           </td>
           <td>
             <button class="btn btn-danger" ng-click="remove(thisitem._id)">Remove</button>
@@ -71,7 +74,7 @@
         </tr>
       </tbody>
     </table>
-    </div>
+  </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
     <!--script src="angular.js"></script-->
