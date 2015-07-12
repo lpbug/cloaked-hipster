@@ -1,11 +1,12 @@
-.navbar {
-  width: 100%;
-  height:20%;  
+.navibar {
+  position: relative;
+  width: 100%;  
 }
 
 .refresh-btn {
   position: absolute;
-  right:20%
+  right:20%;
+  top:50%;
 }
 
 .table {
