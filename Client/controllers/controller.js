@@ -7,25 +7,101 @@ myApp.controller('AppCtrl', function ($scope, $http) {
   //Initialize socket io 
   var socket = io();
   
+  /**
+   * Takes a JSON array to be sorted by the field "claimedby",
+   * returns a sorted JSON array that clusters items with similar
+   * "claimedby" values together
+   */
+  var arrange = function(jsonArray) {
+    //jsonArray.sort(function(a,b){
+    //  console.log(a.claimedby);
+    //  return a.claimedby == b.claimedby;  
+    //});
+    //jsonArray.sort(function(a,b){
+    //  return a.claimedby.length - b.claimedby.length;
+    //});
+    //jsonArray.sort(function(a,b){
+    //  if(a.claimedby =="" && b.claimedby=="") {
+    //    return a.name.length - b.name.length;
+    //  } else {
+    //    return 0;
+    //  }
+    //});
+
+    //var seenNames = new Set();
+    //for (var i = 0; i < jsonArray.length; i++) {
+    //  name = jsonArray[i].claimedby;
+    //  if (!seenNames.has(name)) {
+    //    seenNames.add(name);
+    //  };
+    //};   
+    
+    var unclaimedArray = [];
+    var claimedArray = [];
+
+    for (var i = 0; i < jsonArray.length; i++) {
+      name = jsonArray[i].claimedby;
+      if(name=="") {
+        unclaimedArray.push(jsonArray[i]); 
+      } else {
+        claimedArray.push(jsonArray[i]);
+      }
+    }
+
+    claimedArray.sort(function(a,b) {
+      console.log("sorting claimed Array");  
+      return a.claimedby > b.claimedby;
+    });
+
+    console.log(claimedArray);
+
+    return unclaimedArray.concat(claimedArray);
+
+  };
+
   var refresh = function() {
     $http.get('/itemlist').success(function(res) {
       console.log("Refreshing");
-      $scope.itemlist = res;
+      $scope.itemlist = arrange(res);
       
+      //console.log(res);
+
       //Reset values
       $scope.item.name = "";
       $scope.item.check = false;
       $scope.item.claim = false;
       $scope.item.claimby = "";
+
+      
+
     })
   };
   
   console.log("Checklist app controller started")
   //Load up the page
   refresh();
-  
+ 
+//Initialize heartbeat, which refreshes the page if the heartbeat has been lost for more than 5 seconds  
+var lastHeartbeat=(new Date()).getTime();
+//For debugging, print the number of times that refresh has kicked in due to heartbeat timeout
+var count = 0;
+setInterval(function() {
+  currentHeartbeat = (new Date()).getTime();
+  console.log("Heartbeat");
+  if (currentHeartbeat > (lastHeartbeat + 5000)) {
+    document.getElementById('test-counter').innerHTML = count;
+    count +=1
+    refresh();
+  }
+  lastHeartbeat = currentHeartbeat;
+  },1000);
+
   socket.on("refresh", function() {
     refresh();
+    //Vibrate the device for feedback
+    if('vibrate' in navigator) {
+      navigator.vibrate(100);      
+    };
   });
   
   $scope.checkstatus = function (item) {

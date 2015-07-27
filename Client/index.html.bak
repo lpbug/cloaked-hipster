@@ -12,13 +12,13 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-  <meta name="viewport" content="width=device-width initial-scale=1">
+  <meta name="viewport" content="width=device-width">
 
   <title>Trader Joe's Checklist</title>
 </head>
 
 <body>
-  <div id="test-counter"></div>
+
   <div class="container" style="height:100%" ng-controller="AppCtrl">
 
     <div class="navibar">
@@ -30,15 +30,15 @@
         </select>
       </span>
       <span class="refresh-btn">
-          <button class="btn btn-primary btn-responsive" ng-click="refresh()">Refresh</button>
+          <button class="btn btn-primary" ng-click="refresh()">Refresh</button>
       </span>
     </div>
     <table class="table">
       <thead>
         <tr>
-          <th>Claim</th>
-          <th><i class="glyphicon glyphicon-check"></i></th>
-          <th>Name</th>
+          <th>Claimed</th>
+          <th>Checked</th>
+          <th>Name of Item</th>
         </tr>
       </thead>
       <tbody>
@@ -47,13 +47,13 @@
             <input type="checkbox" ng-model="item.claim"> Claim it?
           </td>
           <td>
-            <input type="checkbox" ng-model="item.check">
+            <input type="checkbox" ng-model="item.check"> Got it?
           </td>
-          <td>
+          <td width=70%>
             <input class="form-control" ng-model="item.name">
           </td>
           <td>
-            <button class="btn btn-primary btn-responsive" ng-click="addItem()">Add Item</button>
+            <button class="btn btn-primary" ng-click="addItem()">Add Item</button>
           </td>
         </tr>
         <tr ng-repeat="thisitem in itemlist track by $index">
@@ -61,7 +61,7 @@
             <input type="checkbox" ng-model="thisitem.claimed" ng-click="claimed(thisitem._id,thisitem.claimed,shopper.name)">&nbsp;{{thisitem.claimedby}}
           </td>
           <td>
-            <input type="checkbox" ng-model="thisitem.checked" ng-click="checked(thisitem._id,thisitem.checked)">
+            <input type="checkbox" ng-model="thisitem.checked" ng-click="checked(thisitem._id,thisitem.checked)"> Got it!
           </td>
           <td>
             <div for="{{$index}}" class="checked-{{thisitem.checked}}">
@@ -69,7 +69,7 @@
             </div>
           </td>
           <td>
-            <button class="btn btn-danger btn-responsive" ng-click="remove(thisitem._id)">Remove</button>
+            <button class="btn btn-danger" ng-click="remove(thisitem._id)">Remove</button>
           </td>
         </tr>
       </tbody>
