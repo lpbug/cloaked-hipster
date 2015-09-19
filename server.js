@@ -87,6 +87,8 @@ app.post("/itemclaim/:id/:status/:name",function(req,res) {
 app.post("/itemlist", function(req, res) {
   console.log("\nGot POST request, adding item");
   console.log(req.body);
+  console.log("---------------");
+  console.log(req.headers);
   addItem(req.body,res);
 });
 
