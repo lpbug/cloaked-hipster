@@ -1,0 +1,72 @@
+<!DOCTYPE>
+<html ng-app="todoApp">
+
+<head>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+  <link href="style.css" rel="stylesheet">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+  <meta name="viewport" content="width=device-width initial-scale=1">
+
+  <title>ToDos</title>
+</head>
+
+<body>
+  <div id="test-counter"></div>
+  <div class="container" style="height:100%" ng-controller="AppCtrl">
+    <h1>ToDos</h1>
+    <div ng-repeat="todoList in todoLists">
+    <table class="table" >
+      <h2>Title</h2>
+      <thead>
+        <tr>
+          <th><i class="glyphicon glyphicon-check"></i></th>
+          <th>Task</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="2">Test Name</td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" ng-model="todo.check">
+          </td>
+          <td>
+            <input class="form-control" ng-model="todo.name">
+          </td>
+          <td>
+            <button class="btn btn-primary btn-responsive" ng-click="addItem()">Add Item</button>
+          </td>
+        </tr>
+        <tr ng-repeat="thisTodo in todoList track by $index">
+          <td>
+            <input type="checkbox" ng-model="thisTodo.checked" ng-click="checked(thisTodo._id,thisTodo.checked)">
+          </td>
+          <td>
+            <div for="{{$index}}" class="checked-{{thisTodo.checked}}">
+              <div class="claimed-{{thisTodo.claimed}}">{{thisitem.name}}</div>
+            </div>
+          </td>
+          <td>
+            <button class="btn btn-danger btn-responsive" ng-click="remove(thisTodo._id)">Remove</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+      </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+  <!--script src="angular.js"></script-->
+  <script src="controllers/todoctrl.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+
+</body>
+
+</html>

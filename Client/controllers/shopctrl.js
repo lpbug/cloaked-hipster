@@ -13,35 +13,12 @@ myApp.controller('AppCtrl', function ($scope, $http) {
    * "claimedby" values together
    */
   var arrange = function(jsonArray) {
-    //jsonArray.sort(function(a,b){
-    //  console.log(a.claimedby);
-    //  return a.claimedby == b.claimedby;  
-    //});
-    //jsonArray.sort(function(a,b){
-    //  return a.claimedby.length - b.claimedby.length;
-    //});
-    //jsonArray.sort(function(a,b){
-    //  if(a.claimedby =="" && b.claimedby=="") {
-    //    return a.name.length - b.name.length;
-    //  } else {
-    //    return 0;
-    //  }
-    //});
-
-    //var seenNames = new Set();
-    //for (var i = 0; i < jsonArray.length; i++) {
-    //  name = jsonArray[i].claimedby;
-    //  if (!seenNames.has(name)) {
-    //    seenNames.add(name);
-    //  };
-    //};   
-    
     var unclaimedArray = [];
     var claimedArray = [];
 
     for (var i = 0; i < jsonArray.length; i++) {
-      name = jsonArray[i].claimedby;
-      if(name=="") {
+      claimedby = jsonArray[i].claimedby;
+      if(claimedby=="") {
         unclaimedArray.push(jsonArray[i]); 
       } else {
         claimedArray.push(jsonArray[i]);
@@ -50,7 +27,11 @@ myApp.controller('AppCtrl', function ($scope, $http) {
 
     claimedArray.sort(function(a,b) {
       console.log("sorting claimed Array");  
-      return a.claimedby > b.claimedby;
+      if (a.claimedby >= b.claimedby) {
+        return 1;
+      } else {
+        return -1;
+      };
     });
 
     console.log(claimedArray);
