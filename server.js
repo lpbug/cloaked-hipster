@@ -78,6 +78,17 @@ var checkItem = function (id, status, res) {
   });
 };
 
+var checkTodoItem = function (id, status, res) {
+  TodoItem.findByIdAndUpdate(id, {
+    $set: {
+      checked: status
+    }
+  }, function (err, item) {
+    if (err) return console.error(err);
+    res.send(item);
+  });
+};
+
 var claimItem = function (id, status, name, res) {
   if (status == "true") {
     Item.findByIdAndUpdate(id, {
@@ -179,6 +190,13 @@ app.delete("/todolist/:id", function (req, res) {
     else res.send("Removed");
     refreshClients();
   });
+});
+
+app.post("/todocheck/:id/:status", function (req, res) {
+  var id = req.params.id;
+  var status = req.params.status;
+  console.log("\nGot POST request, un/checking item: " + id);
+  checkTodoItem(id, status, res);
 });
 
 http.listen(3000);

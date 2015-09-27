@@ -21,6 +21,16 @@ myApp.controller('AppCtrl', function ($scope, $http) {
     });
   }
 
+  $scope.checked = function (id, status) {
+    console.log(id + "has been set to:" + status);
+    //Tell server that status has been changed
+    console.log("Telling the server to check: " + id);
+    $http.post("/todocheck/" + id + "/" + status).success(function (res) {
+      //may be unnecessary
+      refresh();
+    });
+  }
+
   function refresh() {
     $scope.item.checked = false;
     $scope.item.name = "";
